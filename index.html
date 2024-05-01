@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sh Music</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sh Music</h1>
+        <!-- Menu toggle button -->
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <nav>
+            <ul>
+                <!-- Add some -->
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+            </ul>
+            
+        </nav>
+    </header>
+    <section class="search">
+        <div class="search-container">
+            <input type="text" id="searchInput" onkeyup="searchSongs()" placeholder="Search Music">
+            <button onclick="searchSongs()">Search</button>
+        </div>
+    </section>
+    <section class="ListOfSongs">
+        <ul id="songList">
+            <a href="">
+                <li>
+                    <div class="song">
+                        <img src="SongsIcon/Innocent_Eyes.jpg" alt="">
+                        <div class="Title">
+                            Arangba Thawanmichak
+                        </div>
+                        <div class="SubTitle">
+                            Innocent Eyes
+                        </div>
+                    </div>
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <div class="song">
+                        <img src="SongsIcon/Kouramge.png" alt="">
+                        <div class="Title">
+                            Kouramge
+                        </div>
+                        <div class="SubTitle">
+                            Innocent Eyes
+                        </div>
+                    </div>
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <div class="song">
+                        <img src="SongsIcon/TheKoi.jpg" alt="">
+                        <div class="Title">
+                            Bidai
+                        </div>
+                        <div class="SubTitle">
+                            The Koi
+                        </div>
+                    </div>
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <div class="song">
+                        <img src="SongsIcon/Thawai-Wo.png" alt="">
+                        <div class="Title">
+                            Thawai-Wo
+                        </div>
+                        <div class="SubTitle">
+                            Pradeep
+                        </div>
+                    </div>
+                </li>
+            </a>
+            <!-- Other song items go here -->
+        </ul>
+    </section>
+    
+
+    
+
+    <footer>
+        <div class="footer-links">
+            <h4>Shop and Learn</h4>
+            <ul>
+                <li><a href="https://shakespearechabungbam.github.io/ShStore/">Store</a></li>
+                <li><a href="https://shakespearechabungbam.github.io/ShStore/course.html">Course</a></li>
+                <li><a href="https://shakespearechabungbam.github.io/ShStore/books.html">Books</a></li>
+            </ul>
+        </div>
+        <div class="footer-info">
+            <h4>Sh Wallet</h4>
+            <ul>
+                <li><a href="#">Account</a></li>
+                <li><a href="#">Manage Your Sh ID</a></li>
+                <li><a href="#">Sh Store Account</a></li>
+            </ul>
+        </div>
+        <div class="footer-info">
+            <h4>Entertainment</h4>
+            <ul>
+                <li><a href="index.html">Sh Music</a></li>
+                <li><a href="#">Sh Movie</a></li>
+                <li><a href="#">Sh Game Store</a></li>
+            </ul>
+        </div>
+        <div class="footer-contact">
+            <h4>Contact Sh</h4>
+            <ul>
+                <li><a href="https://wa.me/918837067635" target="_blank">WhatsApp</a></li>
+                <li><a href="https://instagram.com/shakespearechabungbam" target="_blank">Instagram</a></li>
+            </ul>
+        </div>
+        <div class="footer-disclaimer">
+            <p>Copyright © 2024 Sh. All rights reserved.</p>
+        </div>
+        <div class="footer-legal">
+            <p>
+                <a href="#">Privacy Policy</a> 
+                <a href="#">Terms of Use</a> 
+                <a href="#">Sales Policy</a> 
+                <a href="#">Legal</a>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            var navMenu = document.querySelector('nav ul');
+            navMenu.classList.toggle('active');
+
+            // Toggle blur effect on the body
+            document.body.classList.toggle('blur');
+            
+            // Toggle cross icon on menu toggle button
+            var menuToggle = document.querySelector('.menu-toggle');
+            menuToggle.classList.toggle('cross');
+        }
+
+        function searchSongs() {
+    // Get the search query from the input field
+    var input = document.getElementById("searchInput");
+    var filter = input.value.toUpperCase();
+
+    // Get the list of songs
+    var songs = document.getElementById("songList").getElementsByTagName("li");
+
+    // Loop through each song item
+    for (var i = 0; i < songs.length; i++) {
+        var song = songs[i];
+        var title = song.getElementsByClassName("Title")[0];
+        var subTitle = song.getElementsByClassName("SubTitle")[0];
+        var titleText = title.textContent || title.innerText;
+        var subTitleText = subTitle.textContent || subTitle.innerText;
+        
+        // Check if the title or subtitle contains the search query
+        if (titleText.toUpperCase().indexOf(filter) > -1 || subTitleText.toUpperCase().indexOf(filter) > -1) {
+            song.style.display = "";
+        } else {
+            song.style.display = "none";
+        }
+    }
+}
+
+    </script>
+</body>
+</html>

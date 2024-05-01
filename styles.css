@@ -1,0 +1,353 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #101214;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    margin: 0;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 20px;
+}
+
+nav ul li a:hover {
+    color: #ffc107;
+}
+
+nav ul li a.active {
+    font-weight: bold; /* Change to desired active style */
+    font-size: 23px;
+    text-decoration: underline;
+}
+
+.search-container {
+    margin-top: 157px;
+    margin-left: 90px;
+    display: inline-block;
+    position: relative;
+    align-self: flex-end;
+}
+
+.search-container input[type="text"] {
+    width: 120px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: width 0.4s ease-in-out;
+}
+
+.search-container input[type="text"]:focus {
+    width: 400px;
+    outline: none;
+}
+
+.search-container button {
+    padding: 8px 10px;
+    border: none;
+    background: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-block; /* Ensure the search button is displayed */
+}
+
+.search-container button:hover {
+    background: #0056b3;
+}
+
+
+
+
+
+
+.ListOfSongs {
+    margin-top: 0; /* Add some space below the fixed header */
+    padding-left: 20px; /* Add padding for spacing */
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: space-between; /* Distribute items evenly along the main axis */
+}
+
+#songList {
+    list-style-type: none;
+    padding: 5%;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#songList li {
+    width: 120px; /* Set the width of each container */
+    height: 200px; /* Set the height of each container */
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd; /* Add border */
+    margin: 3px; /* Add spacing between rows */
+    padding-left: 10px; /* Add padding */
+    padding-right: 10px;
+}
+
+#songList li:hover {
+    background-color: #ddd;
+}
+
+#songList li img {
+    width: 100%; /* Adjust the width of the image */
+    height: auto; /* Ensure aspect ratio is maintained */
+    border-radius: 5%; /* Make the image circular */
+    margin-bottom: 10px; /* Add spacing between image and title */
+}
+
+#songList a {
+    text-decoration: none; /* Remove underline from text links */
+}
+
+#songList li .Title {
+    margin-bottom: 5px;
+    font-size: 11px; /* Adjust the font size of the title */
+    font-weight: 800;
+    color: #333;
+    text-align: center; /* Center align the title */
+    width: 100%; /* Set the width of the title container */
+    overflow: hidden; /* Hide any overflow text */
+    white-space: nowrap; /* Prevent wrapping of text */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+}
+
+#songList li .SubTitle {
+    font-size: 10px; /* Adjust the font size of the subtitle */
+    color: #666; /* Set color for subtitle */
+    text-align: center; /* Center align the subtitle */
+    width: 100%; /* Set the width of the subtitle container */
+    overflow: hidden; /* Hide any overflow text */
+    white-space: nowrap; /* Prevent wrapping of text */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+}
+
+
+/* Adjust styles for mobile navigation */
+@media only screen and (max-width: 600px) {
+    header {
+        padding: 20px; /* Restore padding for header */
+    }
+
+    header h1 {
+        font-size: 25px; /* Reduce font size for header title */
+    }
+
+    nav ul li {
+        margin-right: 10px; /* Reduce margin between navigation items */
+        font-size: 16px; /* Restore font size for navigation items */
+    }
+
+    nav ul li a.active {
+        font-weight: bold; /* Change to desired active style */
+        font-size: 18px; /* Restore font size for active item */
+    }
+
+    /* Show menu toggle button */
+    .menu-toggle {
+        display: block; /* Ensure menu toggle button is visible */
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    /* Adjust styles for mobile navigation */
+    nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: #101214;
+        width: 100%;
+        position: absolute;
+        top: 60px; /* Adjust based on header height */
+        left: 0;
+        transition: all 0.3s ease-in-out;
+        display: none;
+    }
+
+    nav ul.active {
+        margin-right: 0;
+        display: flex;
+    }
+
+    nav ul li {
+        margin-right: 0;
+        margin-bottom: 10px;
+        width: 100%;
+        text-align: center;
+    }
+
+    nav ul li a {
+        font-size: 18px; /* Adjust font size for better visibility */
+    }
+
+    .search-container {
+        margin-top: 80px;
+        margin-left: 50px;
+    }
+
+    .search-container input[type="text"]:focus {
+        width: 220px;
+        outline: none;
+    }
+
+    /* Adjust search input width */
+    .search-container input[type="text"] {
+        width: 110px;
+    }
+
+    /* Adjust search button margin */
+    .search-container button {
+        margin-top: 10px;
+    }
+}
+
+.menu-toggle {
+    cursor: pointer;
+    margin-right: 23px;
+    transform: translateX(-48%);
+}
+
+.menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 5px 0;
+    transition: 0.4s;
+}
+
+/* Styles for the cross icon when menu is active */
+.menu-toggle.cross .bar:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.menu-toggle.cross .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.cross .bar:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
+
+
+/* Footer Styles */
+footer {
+    background-color: #101214;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+.footer-links,
+.footer-info {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.footer-links ul,
+.footer-info ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-links ul li,
+.footer-info ul li {
+    margin-bottom: 10px;
+}
+
+.footer-links ul li a,
+.footer-info ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.footer-links ul li a:hover,
+.footer-info ul li a:hover {
+    color: #ffc107;
+}
+
+.footer-contact ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-contact ul li {
+    margin-bottom: 10px;
+}
+
+.footer-contact ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.footer-contact ul li a:hover {
+    color: #ffc107;
+}
+
+
+.footer-disclaimer {
+    margin-top: 20px;
+}
+
+.footer-disclaimer p {
+    margin: 5px 0;
+}
+
+.footer-legal {
+    margin-top: 20px;
+}
+
+.footer-legal p {
+    margin: 5px 0;
+}
+
+.footer-legal p a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+}
+
+.footer-legal p a:hover {
+    color: #ffc107;
+}
