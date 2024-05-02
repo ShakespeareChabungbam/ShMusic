@@ -91,6 +91,83 @@ nav ul li a.active {
 
 
 
+/* Add a new CSS section for styling the artist section */
+.artists {
+    text-align: center;
+    margin: 0 70px; /* Add left and right margin */
+    overflow-x: auto; /* Enable horizontal scrolling */
+}
+
+.Header {
+    font-size: 24px;
+    color: #333;
+}
+
+.ListOfArtists {
+    padding: 10px 0;
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap; /* Ensure artists are displayed in a single row */
+    overflow-x: auto; /* Enable horizontal scrolling */
+}
+
+#artistList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Ensures list items are displayed horizontally */
+}
+
+#artistList li {
+    margin-right: 20px;
+}
+
+.ArtistContainer {
+    width: 80px;
+    height: 100px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.ArtistContainer img {
+    width: 100%;
+    height: auto;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.ArtistName {
+    background-color: #333;
+    color: #fff;
+    padding: 3px;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* Ensure the scroll feature is retained for the artist section */
+.ListOfArtists::-webkit-scrollbar {
+    height: 8px;
+}
+
+.ListOfArtists::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.ListOfArtists::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+
+
+
+
+
+
 .ListOfSongs {
     margin-top: 0; /* Add some space below the fixed header */
     padding-left: 20px; /* Add padding for spacing */
