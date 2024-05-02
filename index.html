@@ -30,7 +30,87 @@
             <button onclick="searchSongs()">Search</button>
         </div>
     </section>
+
+
+    <section class="artists">
+        <h3 class="Header">Artists</h3>
+        <div class="ListOfArtists">
+            <ul id="artistList">
+                <li>
+                    <a href="#">
+                        <div class="ArtistContainer">
+                            <img src="ArtistsIcon/Shei Huum.jpg" alt="">
+                            <div class="ArtistName">Shei Huum</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="ArtistContainer">
+                            <img src="ArtistsIcon/Innocent Eyes.jpg" alt="">
+                            <div class="ArtistName">Innocent Eyes</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="ArtistContainer">
+                            <img src="ArtistsIcon/The Koi.jpg" alt="">
+                            <div class="ArtistName">The Koi</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="ArtistContainer">
+                            <img src="ArtistsIcon/Eyoom.jpg" alt="">
+                            <div class="ArtistName">Eyoom</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="ArtistContainer">
+                            <img src="ArtistsIcon/Shei Huum.jpg" alt="">
+                            <div class="ArtistName">Meewakching</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="ArtistContainer">
+                            <img src="ArtistsIcon/Shei Huum.jpg" alt="">
+                            <div class="ArtistName">Mondrang Project</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="ArtistContainer">
+                            <img src="ArtistsIcon/Shei Huum.jpg" alt="">
+                            <div class="ArtistName">EPIPHANY</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="ArtistContainer">
+                            <img src="ArtistsIcon/Shei Huum.jpg" alt="">
+                            <div class="ArtistName">Pradeep</div>
+                        </div>
+                    </a>
+                </li>
+                <!-- Add more list items as needed -->
+            </ul>
+        </div>
+    </section>
+    
+    
+
+
     <section class="ListOfSongs">
+            <h3 class="Header">Songs</h3>
+        
         <ul id="songList">
             <a href="https://shakespearecha.github.io/Apaiba-Leichil-Shei-Huum">
                 <li>
@@ -263,6 +343,45 @@
         }
     }
 }
+
+// Function to filter songs by artist
+function filterSongsByArtist(artistName) {
+    var songs = document.getElementById("songList").getElementsByTagName("li");
+
+    // Loop through each song item
+    for (var i = 0; i < songs.length; i++) {
+        var song = songs[i];
+        var title = song.getElementsByClassName("Title")[0];
+        var subTitle = song.getElementsByClassName("SubTitle")[0];
+        var titleText = title.textContent || title.innerText;
+        var subTitleText = subTitle.textContent || subTitle.innerText;
+        
+        // Check if the title or subtitle contains the artist's name
+        if (titleText.toUpperCase().indexOf(artistName.toUpperCase()) > -1 || subTitleText.toUpperCase().indexOf(artistName.toUpperCase()) > -1) {
+            song.style.display = "";
+        } else {
+            song.style.display = "none";
+        }
+    }
+}
+
+// Function to handle artist link click
+function handleArtistClick(artistName) {
+    // Call the function to filter songs by the clicked artist
+    filterSongsByArtist(artistName);
+}
+
+// Add event listeners to each artist link
+document.querySelectorAll('.ArtistContainer').forEach(item => {
+    item.addEventListener('click', event => {
+        // Get the artist name from the clicked link
+        var artistName = item.querySelector('.ArtistName').textContent.trim();
+        
+        // Handle the click event for the artist link
+        handleArtistClick(artistName);
+    });
+});
+
 
     </script>
 </body>
