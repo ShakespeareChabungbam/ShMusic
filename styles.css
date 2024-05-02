@@ -50,8 +50,8 @@ nav ul li a.active {
 }
 
 .search-container {
-    margin-top: 157px;
-    margin-left: 90px;
+    margin-top: 5px;
+    margin-left: 70px;
     display: inline-block;
     position: relative;
     align-self: flex-end;
@@ -94,7 +94,8 @@ nav ul li a.active {
 /* Add a new CSS section for styling the artist section */
 .artists {
     text-align: center;
-    margin: 0 70px; /* Add left and right margin */
+    margin: 0 20px; /* Add left and right margin */
+    margin-top: 130px;
     overflow-x: auto; /* Enable horizontal scrolling */
 }
 
@@ -144,8 +145,8 @@ nav ul li a.active {
     font-size: 10px;
     font-weight: bold;
     text-align: center;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 /* Ensure the scroll feature is retained for the artist section */
@@ -237,6 +238,21 @@ nav ul li a.active {
     text-overflow: ellipsis; /* Show ellipsis for overflow text */
 }
 
+#songList li {
+    /* Existing styles */
+    position: relative; /* Add relative positioning */
+}
+
+.language {
+    font-weight: bold;
+    font-size: 0;
+    color: black;
+    position: absolute;
+    right: 0; /* Position at the right edge of the parent container */
+    bottom: 5px; /* Adjust the vertical position as needed */
+}
+
+
 
 /* Adjust styles for mobile navigation */
 @media only screen and (max-width: 600px) {
@@ -297,7 +313,7 @@ nav ul li a.active {
     }
 
     .search-container {
-        margin-top: 80px;
+        margin-top: 5px;
         margin-left: 50px;
     }
 
@@ -314,6 +330,10 @@ nav ul li a.active {
     /* Adjust search button margin */
     .search-container button {
         margin-top: 10px;
+    }
+
+    .artists {
+        margin-top: 50px;
     }
 }
 
