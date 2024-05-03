@@ -21,6 +21,10 @@ header h1 {
     margin: 0;
 }
 
+header a{
+    font-size: 16px;
+}
+
 nav ul {
     list-style-type: none;
     margin: 0;
@@ -277,12 +281,14 @@ nav ul li a.active {
 
     nav ul li {
         margin-right: 10px; /* Reduce margin between navigation items */
-        font-size: 16px; /* Restore font size for navigation items */
+        font-size: 20px; /* Restore font size for navigation items */
     }
-
+    nav ul li a {
+        font-size: 12px;
+    }
     nav ul li a.active {
         font-weight: bold; /* Change to desired active style */
-        font-size: 18px; /* Restore font size for active item */
+        font-size: 14px; /* Restore font size for active item */
     }
 
     /* Show menu toggle button */
@@ -318,10 +324,7 @@ nav ul li a.active {
         width: 100%;
         text-align: center;
     }
-
-    nav ul li a {
-        font-size: 18px; /* Adjust font size for better visibility */
-    }
+    
 
     .search-container {
         margin-top: 5px;
@@ -343,6 +346,11 @@ nav ul li a.active {
         margin-top: 10px;
     }
 
+    .headerImage img {
+        width: 100%; /* Adjust as needed */
+        max-width: 180px; /* Adjust as needed */
+    }
+    
     .headerImage {
         text-align: center;
         margin-top: 70px; /* Add margin-top */
