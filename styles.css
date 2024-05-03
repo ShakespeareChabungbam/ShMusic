@@ -49,6 +49,16 @@ nav ul li a.active {
     text-decoration: underline;
 }
 
+.headerImage {
+    text-align: center;
+    margin-top: 100px; /* Add margin-top */
+    padding-top: 30px;
+}
+.headerImage img {
+    width: 100%; /* Adjust as needed */
+    max-width: 300px; /* Adjust as needed */
+}
+
 .search-container {
     margin-top: 5px;
     margin-left: 70px;
@@ -95,11 +105,12 @@ nav ul li a.active {
 .artists {
     text-align: center;
     margin: 0 20px; /* Add left and right margin */
-    margin-top: 130px;
+    margin-top: -30px;
     overflow-x: auto; /* Enable horizontal scrolling */
 }
 
 .Header {
+    margin-bottom: 10px;
     font-size: 24px;
     color: #333;
 }
@@ -332,8 +343,17 @@ nav ul li a.active {
         margin-top: 10px;
     }
 
+    .headerImage {
+        text-align: center;
+        margin-top: 70px; /* Add margin-top */
+        padding-top: 0;
+    }
+
     .artists {
-        margin-top: 50px;
+        text-align: center;
+        margin: 0 20px; /* Add left and right margin */
+        margin-top: -30px;
+        overflow-x: auto; /* Enable horizontal scrolling */
     }
 }
 
