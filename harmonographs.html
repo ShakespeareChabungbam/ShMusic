@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harmonographs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            text-align: center;
+        }
+        .headerImage {
+            margin-bottom: 20px;
+        }
+        .headerImage img {
+            max-width: 100%;
+            height: 300px;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .typewriter {
+            font-size: 18px;
+            overflow: hidden;
+            border-right: .15em solid orange;
+            white-space: nowrap;
+            animation: typing 3s steps(30, end) infinite, blink-caret .5s infinite alternate;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: orange }
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 18px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #0056b3;
+        }
+
+        /* Media Query for Mobile Phones */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 20px;
+            }
+            .typewriter {
+                font-size: 16px;
+            }
+            a {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="headerImage">
+            <a href="index.html"><img src="ShMusic logo.png" alt=""></a>
+        </section>
+        <h1><span class="typewriter">Coming Soon!</span></h1>
+        <a href="index.html">ShMusic</a>
+    </div>
+</body>
+</html>
