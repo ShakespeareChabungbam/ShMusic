@@ -7,7 +7,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
+            background-color: black;
+            color: white;
             margin: 0;
             padding: 0;
             display: flex;
@@ -17,21 +18,60 @@
         }
         .container {
             text-align: center;
+            position: relative;
         }
-        .headerImage {
+        .video-wrapper {
+            position: relative;
+            width: 600px; /* Default width for computer */
+            height: auto;
             margin-bottom: 20px;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .headerImage img {
-            max-width: 100%;
-            height: 300px;
+        video {
+            width: 100%;
+            height: auto;
+            border-radius: inherit;
+            opacity: 0; /* initially hide the video */
+            transition: opacity 1s ease; /* add a smooth transition */
+        }
+        .custom-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1; /* Ensure controls are on top of the video */
+        }
+        .custom-controls button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 36px; /* Make play button bigger */
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        .custom-controls button:hover {
+            color: #ccc;
+        }
+        .video-wrapper:hover .custom-controls button {
+            visibility: visible; /* Ensure play button is always visible on hover */
         }
         h1 {
             font-size: 24px;
             font-weight: bold;
-            color: #333;
+            color: #b0b0b0;
             margin-bottom: 10px;
         }
-        .typewriter {
+        .typewriter { 
             font-size: 18px;
             overflow: hidden;
             border-right: .15em solid orange;
@@ -42,7 +82,7 @@
         }
         @keyframes typing {
             from { width: 0 }
-            to { width: 40% }
+            to { width: 60% }
         }
         @keyframes blink-caret {
             from, to { border-color: transparent }
@@ -58,9 +98,11 @@
         a:hover {
             color: #0056b3;
         }
-
         /* Media Query for Mobile Phones */
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
+            .video-wrapper {
+                width: 300px; /* Adjust width for mobile phones */
+            }
             h1 {
                 font-size: 20px;
             }
@@ -70,16 +112,68 @@
             a {
                 font-size: 16px;
             }
+            .video-wrapper {
+            width: 300px; 
+        }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <section class="headerImage">
-            <a href="index.html"><img src="ShMusic logo.png" alt=""></a>
-        </section>
+        <div class="video-wrapper">
+            <video id="myVideo" src="Music Logo.mov" autoplay loop></video>
+            <div class="custom-controls">
+                <button id="playBtn">&#9658;</button> <!-- Play button icon -->
+            </div>
+        </div>
         <h1><span class="typewriter">Coming Soon!</span></h1>
         <a href="index.html">ShMusic</a>
     </div>
+
+    <script>
+        // Select the video element
+        const video = document.getElementById('myVideo');
+        // Select custom controls buttons
+        const playBtn = document.getElementById('playBtn');
+        const customControls = document.querySelector('.custom-controls');
+
+        // Add an event listener for when the video is loaded
+        video.addEventListener('loadeddata', () => {
+            // Fade in the video by setting its opacity to 1
+            video.style.opacity = 1;
+        });
+
+        // Function to toggle play/pause
+        function togglePlayPause() {
+            if (video.paused) {
+                video.play();
+                playBtn.innerHTML = '&#10074;&#10074;'; // Pause button icon
+            } else {
+                video.pause();
+                playBtn.innerHTML = '&#9658;'; // Play button icon
+            }
+        }
+
+        // Function to show controls when video is paused or ended
+        function showControls() {
+            if (video.paused || video.ended) {
+                customControls.style.visibility = 'visible';
+            }
+        }
+
+        // Function to hide controls when video is playing
+        function hideControls() {
+            customControls.style.visibility = 'hidden';
+        }
+
+        // Add event listeners to custom controls buttons
+        playBtn.addEventListener('click', togglePlayPause);
+
+        // Add event listeners to toggle controls visibility
+        video.addEventListener('play', hideControls);
+        video.addEventListener('pause', showControls);
+        video.addEventListener('ended', showControls);
+        video.addEventListener('mousemove', showControls);
+    </script>
 </body>
 </html>
