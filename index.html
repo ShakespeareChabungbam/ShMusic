@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sh Music</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <header>
         <h1>Sh Music</h1>
@@ -21,10 +23,10 @@
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="harmonographs.html">Harmonographs</a></li>
                 <li><a href="https://www.instagram.com/shakespearechabungbam/">Contact</a></li>
-            </ul>        
+            </ul>
         </nav>
     </header>
-    
+
     <section class="headerImage">
         </a><img src="ShClouds.png" alt="">
     </section>
@@ -134,8 +136,8 @@
             </ul>
         </div>
     </section>
-    
-    
+
+
 
     <section class="search">
         <div class="search-container">
@@ -146,8 +148,8 @@
 
 
     <section class="ListOfSongs">
-            <h3 class="Header">Songs</h3>
-        
+        <h3 class="Header">Songs</h3>
+
         <ul id="songList">
 
             <a href="https://shakespearecha.github.io/Apaiba-Leichil-Shei-Huum">
@@ -223,6 +225,22 @@
                         </div>
                         <div class="SubTitle">
                             Shei Huum
+                        </div>
+                        <div class="language">
+                            Manipuri Songs
+                        </div>
+                    </div>
+                </li>
+            </a>
+            <a href="https://shakespearecha.github.io/Eigi-Naoshum-Epiphani/">
+                <li>
+                    <div class="song">
+                        <img src="SongsIcon/Eigi Naoshum.jpg" alt="">
+                        <div class="Title">
+                            Eigi Naoshum
+                        </div>
+                        <div class="SubTitle">
+                            EPIPHANI
                         </div>
                         <div class="language">
                             Manipuri Songs
@@ -585,9 +603,9 @@
             <!-- Other song items go here -->
         </ul>
     </section>
-    
 
-    
+
+
 
     <footer>
         <div class="footer-links">
@@ -626,9 +644,9 @@
         </div>
         <div class="footer-legal">
             <p>
-                <a href="#">Privacy Policy</a> 
-                <a href="#">Terms of Use</a> 
-                <a href="#">Sales Policy</a> 
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Use</a>
+                <a href="#">Sales Policy</a>
                 <a href="#">Legal</a>
             </p>
         </div>
@@ -641,79 +659,80 @@
 
             // Toggle blur effect on the body
             document.body.classList.toggle('blur');
-            
+
             // Toggle cross icon on menu toggle button
             var menuToggle = document.querySelector('.menu-toggle');
             menuToggle.classList.toggle('cross');
         }
 
         function searchSongs() {
-    // Get the search query from the input field
-    var input = document.getElementById("searchInput");
-    var filter = input.value.toUpperCase();
+            // Get the search query from the input field
+            var input = document.getElementById("searchInput");
+            var filter = input.value.toUpperCase();
 
-    // Get the list of songs
-    var songs = document.getElementById("songList").getElementsByTagName("li");
+            // Get the list of songs
+            var songs = document.getElementById("songList").getElementsByTagName("li");
 
-    // Loop through each song item
-    for (var i = 0; i < songs.length; i++) {
-        var song = songs[i];
-        var title = song.getElementsByClassName("Title")[0];
-        var subTitle = song.getElementsByClassName("SubTitle")[0];
-        var language = song.getElementsByClassName("language")[0]; // Get language element
-        var titleText = title.textContent || title.innerText;
-        var subTitleText = subTitle.textContent || subTitle.innerText;
-        var languageText = language.textContent || language.innerText; // Get language text
-        
-        // Check if the title, subtitle, or language contains the search query
-        if (titleText.toUpperCase().indexOf(filter) > -1 || subTitleText.toUpperCase().indexOf(filter) > -1 || languageText.toUpperCase().indexOf(filter) > -1) {
-            song.style.display = "";
-        } else {
-            song.style.display = "none";
+            // Loop through each song item
+            for (var i = 0; i < songs.length; i++) {
+                var song = songs[i];
+                var title = song.getElementsByClassName("Title")[0];
+                var subTitle = song.getElementsByClassName("SubTitle")[0];
+                var language = song.getElementsByClassName("language")[0]; // Get language element
+                var titleText = title.textContent || title.innerText;
+                var subTitleText = subTitle.textContent || subTitle.innerText;
+                var languageText = language.textContent || language.innerText; // Get language text
+
+                // Check if the title, subtitle, or language contains the search query
+                if (titleText.toUpperCase().indexOf(filter) > -1 || subTitleText.toUpperCase().indexOf(filter) > -1 || languageText.toUpperCase().indexOf(filter) > -1) {
+                    song.style.display = "";
+                } else {
+                    song.style.display = "none";
+                }
+            }
         }
-    }
-}
 
 
-// Function to filter songs by artist
-function filterSongsByArtist(artistName) {
-    var songs = document.getElementById("songList").getElementsByTagName("li");
+        // Function to filter songs by artist
+        function filterSongsByArtist(artistName) {
+            var songs = document.getElementById("songList").getElementsByTagName("li");
 
-    // Loop through each song item
-    for (var i = 0; i < songs.length; i++) {
-        var song = songs[i];
-        var title = song.getElementsByClassName("Title")[0];
-        var subTitle = song.getElementsByClassName("SubTitle")[0];
-        var titleText = title.textContent || title.innerText;
-        var subTitleText = subTitle.textContent || subTitle.innerText;
-        
-        // Check if the title or subtitle contains the artist's name
-        if (titleText.toUpperCase().indexOf(artistName.toUpperCase()) > -1 || subTitleText.toUpperCase().indexOf(artistName.toUpperCase()) > -1) {
-            song.style.display = "";
-        } else {
-            song.style.display = "none";
+            // Loop through each song item
+            for (var i = 0; i < songs.length; i++) {
+                var song = songs[i];
+                var title = song.getElementsByClassName("Title")[0];
+                var subTitle = song.getElementsByClassName("SubTitle")[0];
+                var titleText = title.textContent || title.innerText;
+                var subTitleText = subTitle.textContent || subTitle.innerText;
+
+                // Check if the title or subtitle contains the artist's name
+                if (titleText.toUpperCase().indexOf(artistName.toUpperCase()) > -1 || subTitleText.toUpperCase().indexOf(artistName.toUpperCase()) > -1) {
+                    song.style.display = "";
+                } else {
+                    song.style.display = "none";
+                }
+            }
         }
-    }
-}
 
-// Function to handle artist link click
-function handleArtistClick(artistName) {
-    // Call the function to filter songs by the clicked artist
-    filterSongsByArtist(artistName);
-}
+        // Function to handle artist link click
+        function handleArtistClick(artistName) {
+            // Call the function to filter songs by the clicked artist
+            filterSongsByArtist(artistName);
+        }
 
-// Add event listeners to each artist link
-document.querySelectorAll('.ArtistContainer').forEach(item => {
-    item.addEventListener('click', event => {
-        // Get the artist name from the clicked link
-        var artistName = item.querySelector('.ArtistName').textContent.trim();
-        
-        // Handle the click event for the artist link
-        handleArtistClick(artistName);
-    });
-});
+        // Add event listeners to each artist link
+        document.querySelectorAll('.ArtistContainer').forEach(item => {
+            item.addEventListener('click', event => {
+                // Get the artist name from the clicked link
+                var artistName = item.querySelector('.ArtistName').textContent.trim();
+
+                // Handle the click event for the artist link
+                handleArtistClick(artistName);
+            });
+        });
 
 
     </script>
 </body>
+
 </html>
