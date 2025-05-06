@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sh Music Reels</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Reels-specific styles matching your original design */
+        .reels-header {
+            text-align: center;
+            margin-top: 100px;
+            margin-bottom: 20px;
+        }
+
+        .reels-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            padding: 0 20px;
+            max-width: 500px;
+            margin: 0 auto 50px;
+        }
+
+        .reel {
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 177.78%;
+            background: #000;
+        }
+
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .reel-info {
+            padding: 15px;
+            position: relative;
+        }
+
+        .artist-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .artist-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .reel-caption {
+            margin: 10px 0;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .song-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        .song-preview {
+            flex-grow: 1;
+            height: 30px;
+        }
+
+        /* Beautiful interactive controls */
+        .reel-controls {
+            position: absolute;
+            right: 10px;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .control-btn {
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .heart-icon {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease, fill 0.3s ease;
+            stroke: white;
+            fill: none;
+        }
+
+        .control-btn.liked .heart-icon {
+            fill: #ff1a75;
+            stroke: #ff1a75;
+            transform: scale(1.2);
+        }
+
+
+        /* Comment section styling */
+        .comments-section {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        .comments-section.active {
+            max-height: 300px;
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .comment {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .comment-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .comment-content {
+            flex: 1;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .comment-text {
+            font-size: 14px;
+            margin-top: 2px;
+        }
+
+        .comment-input {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .comment-input input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+        }
+
+        .comment-input button {
+            background: #101214;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 0 15px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .reels-header {
+                margin-top: 80px;
+            }
+
+            .reel-controls {
+                bottom: 15px;
+                right: 8px;
+            }
+
+            .control-btn {
+                width: 36px;
+                height: 36px;
+            }
+        }
+
+
+
+        .heart-popup {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            font-size: 64px;
+            color: red;
+            opacity: 0.8;
+            animation: pop 0.6s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Sh Music</h1>
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="harmonographs.html">Harmonographs</a></li>
+                <li><a href="reels.html" class="active">Reels</a></li>
+                <li><a href="https://www.instagram.com/shakespearechabungbam/">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="reels-header">
+        <h2>Sh Reels</h2>
+    </div>
+
+    <div class="reels-container">
+        <!-- Sample Reel 1 -->
+        <div class="reel" data-reel-id="1">
+            <div class="video-container">
+                <video loop controls playsinline poster="reel-thumbs/concert.webp">
+                    <source src="reels video/About You.mp4" type="video/mp4">
+                </video>
+                <div class="reel-controls">
+                    <button class="control-btn like-btn" onclick="toggleLike(this)">
+                        <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button class="control-btn comment-btn" onclick="toggleComments(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="heart-icon" width="24" height="24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M21 12c0-4.97-4.03-9-9-9S3 7.03 3 12c0 1.64.44 3.17 1.21 4.5L3 21l4.5-1.21A8.96 8.96 0 0012 21c4.97 0 9-4.03 9-9z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn share-btn" onclick="shareReel(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2" class="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 12v1a7 7 0 007 7h1M16 8l4-4m0 0L16 0m4 4H8a4 4 0 00-4 4v4" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="reel-info">
+                <div class="artist-info">
+                    <img src="ShClouds.png" alt="The 1975" class="artist-avatar">
+                    <span class="artist-name"><b>The 1975</b></span>
+                </div>
+                <p class="reel-caption">About You</p>
+            </div>
+            <div class="comments-section">
+                <div class="comment">
+                    <img src="users/user1.webp" alt="User" class="comment-avatar">
+                    <div class="comment-content">
+                        <div class="comment-author">musiclover123</div>
+                        <div class="comment-text">Consistency is rare in the industry but The 1975 consistently deliver
+                        </div>
+                    </div>
+                </div>
+                <div class="comment">
+                    <img src="users/user2.webp" alt="User" class="comment-avatar">
+                    <div class="comment-content">
+                        <div class="comment-author">whatsover2317</div>
+                        <div class="comment-text">Favourite song from the album. Sounds like a continuation of Robbers,
+                            love it.</div>
+                    </div>
+                </div>
+                <div class="comment-input">
+                    <input type="text" placeholder="Add a comment...">
+                    <button onclick="postComment(this)">Post</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Reel 2 -->
+        <div class="reel" data-reel-id="1">
+            <div class="video-container">
+                <video loop controls playsinline poster="reel-thumbs/concert.webp">
+                    <source src="reels video/I think they call this love.mp4" type="video/mp4">
+                </video>
+                <div class="reel-controls">
+                    <button class="control-btn like-btn" onclick="toggleLike(this)">
+                        <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button class="control-btn comment-btn" onclick="toggleComments(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="heart-icon" width="24" height="24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M21 12c0-4.97-4.03-9-9-9S3 7.03 3 12c0 1.64.44 3.17 1.21 4.5L3 21l4.5-1.21A8.96 8.96 0 0012 21c4.97 0 9-4.03 9-9z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn share-btn" onclick="shareReel(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2" class="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 12v1a7 7 0 007 7h1M16 8l4-4m0 0L16 0m4 4H8a4 4 0 00-4 4v4" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="reel-info">
+                <div class="artist-info">
+                    <img src="ShClouds.png" alt="The 1975" class="artist-avatar">
+                    <span class="artist-name"><b>Elliot James Reay</b></span>
+                </div>
+                <p class="reel-caption">I think they call this love</p>
+            </div>
+            <div class="comments-section">
+                <div class="comment-input">
+                    <input type="text" placeholder="Add a comment...">
+                    <button onclick="postComment(this)">Post</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Reel 3 -->
+        <div class="reel" data-reel-id="1">
+            <div class="video-container">
+                <video loop controls playsinline poster="reel-thumbs/concert.webp">
+                    <source src="reels video/(Everything I Do) I Do It For You.mp4" type="video/mp4">
+                </video>
+                <div class="reel-controls">
+                    <button class="control-btn like-btn" onclick="toggleLike(this)">
+                        <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button class="control-btn comment-btn" onclick="toggleComments(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="heart-icon" width="24" height="24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M21 12c0-4.97-4.03-9-9-9S3 7.03 3 12c0 1.64.44 3.17 1.21 4.5L3 21l4.5-1.21A8.96 8.96 0 0012 21c4.97 0 9-4.03 9-9z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn share-btn" onclick="shareReel(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2" class="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 12v1a7 7 0 007 7h1M16 8l4-4m0 0L16 0m4 4H8a4 4 0 00-4 4v4" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="reel-info">
+                <div class="artist-info">
+                    <img src="ShClouds.png" alt="The 1975" class="artist-avatar">
+                    <span class="artist-name"><b>Bryan Adams</b></span>
+                </div>
+                <p class="reel-caption">(Everything I Do) I Do It For You</p>
+            </div>
+            <div class="comments-section">
+                <div class="comment-input">
+                    <input type="text" placeholder="Add a comment...">
+                    <button onclick="postComment(this)">Post</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Reel 4 -->
+        <div class="reel" data-reel-id="1">
+            <div class="video-container">
+                <video loop controls playsinline poster="reel-thumbs/concert.webp">
+                    <source src="reels video/Line without a hook.mp4" type="video/mp4">
+                </video>
+                <div class="reel-controls">
+                    <button class="control-btn like-btn" onclick="toggleLike(this)">
+                        <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button class="control-btn comment-btn" onclick="toggleComments(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="heart-icon" width="24" height="24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M21 12c0-4.97-4.03-9-9-9S3 7.03 3 12c0 1.64.44 3.17 1.21 4.5L3 21l4.5-1.21A8.96 8.96 0 0012 21c4.97 0 9-4.03 9-9z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn share-btn" onclick="shareReel(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2" class="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 12v1a7 7 0 007 7h1M16 8l4-4m0 0L16 0m4 4H8a4 4 0 00-4 4v4" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="reel-info">
+                <div class="artist-info">
+                    <img src="ShClouds.png" alt="The 1975" class="artist-avatar">
+                    <span class="artist-name"><b>Ricky Mongomery</b></span>
+                </div>
+                <p class="reel-caption">Line without a hook</p>
+            </div>
+            <div class="comments-section">
+                <div class="comment-input">
+                    <input type="text" placeholder="Add a comment...">
+                    <button onclick="postComment(this)">Post</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Reel 5 -->
+        <div class="reel" data-reel-id="1">
+            <div class="video-container">
+                <video loop controls playsinline poster="reel-thumbs/concert.webp">
+                    <source src="reels video/Every Breath You Take.mp4" type="video/mp4">
+                </video>
+                <div class="reel-controls">
+                    <button class="control-btn like-btn" onclick="toggleLike(this)">
+                        <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button class="control-btn comment-btn" onclick="toggleComments(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="heart-icon" width="24" height="24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M21 12c0-4.97-4.03-9-9-9S3 7.03 3 12c0 1.64.44 3.17 1.21 4.5L3 21l4.5-1.21A8.96 8.96 0 0012 21c4.97 0 9-4.03 9-9z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn share-btn" onclick="shareReel(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2" class="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 12v1a7 7 0 007 7h1M16 8l4-4m0 0L16 0m4 4H8a4 4 0 00-4 4v4" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="reel-info">
+                <div class="artist-info">
+                    <img src="ShClouds.png" alt="The 1975" class="artist-avatar">
+                    <span class="artist-name"><b>The Police</b></span>
+                </div>
+                <p class="reel-caption">Every Breath You Take</p>
+            </div>
+            <div class="comments-section">
+                <div class="comment-input">
+                    <input type="text" placeholder="Add a comment...">
+                    <button onclick="postComment(this)">Post</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Reel 6 -->
+        <div class="reel" data-reel-id="1">
+            <div class="video-container">
+                <video loop controls playsinline poster="reel-thumbs/concert.webp">
+                    <source src="reels video/Photograph.mp4" type="video/mp4">
+                </video>
+                <div class="reel-controls">
+                    <button class="control-btn like-btn" onclick="toggleLike(this)">
+                        <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button class="control-btn comment-btn" onclick="toggleComments(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="heart-icon" width="24" height="24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M21 12c0-4.97-4.03-9-9-9S3 7.03 3 12c0 1.64.44 3.17 1.21 4.5L3 21l4.5-1.21A8.96 8.96 0 0012 21c4.97 0 9-4.03 9-9z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn share-btn" onclick="shareReel(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2" class="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 12v1a7 7 0 007 7h1M16 8l4-4m0 0L16 0m4 4H8a4 4 0 00-4 4v4" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="reel-info">
+                <div class="artist-info">
+                    <img src="ShClouds.png" alt="The 1975" class="artist-avatar">
+                    <span class="artist-name"><b>Ed Sheeran</b></span>
+                </div>
+                <p class="reel-caption">Photograph</p>
+            </div>
+            <div class="comments-section">
+                <div class="comment-input">
+                    <input type="text" placeholder="Add a comment...">
+                    <button onclick="postComment(this)">Post</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Reel 7 -->
+        <div class="reel" data-reel-id="1">
+            <div class="video-container">
+                <video loop controls playsinline poster="reel-thumbs/concert.webp">
+                    <source src="reels video/Can't Help Falling in Love.mp4" type="video/mp4">
+                </video>
+                <div class="reel-controls">
+                    <button class="control-btn like-btn" onclick="toggleLike(this)">
+                        <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button class="control-btn comment-btn" onclick="toggleComments(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="heart-icon" width="24" height="24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M21 12c0-4.97-4.03-9-9-9S3 7.03 3 12c0 1.64.44 3.17 1.21 4.5L3 21l4.5-1.21A8.96 8.96 0 0012 21c4.97 0 9-4.03 9-9z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn share-btn" onclick="shareReel(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2" class="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 12v1a7 7 0 007 7h1M16 8l4-4m0 0L16 0m4 4H8a4 4 0 00-4 4v4" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="reel-info">
+                <div class="artist-info">
+                    <img src="ShClouds.png" alt="The 1975" class="artist-avatar">
+                    <span class="artist-name"><b>Elvis Presley</b></span>
+                </div>
+                <p class="reel-caption">Can't help falling in love with you</p>
+            </div>
+            <div class="comments-section">
+                <div class="comment-input">
+                    <input type="text" placeholder="Add a comment...">
+                    <button onclick="postComment(this)">Post</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Reel 8 -->
+        <div class="reel" data-reel-id="1">
+            <div class="video-container">
+                <video loop controls playsinline poster="reel-thumbs/concert.webp">
+                    <source src="reels video/Imagine.mp4" type="video/mp4">
+                </video>
+                <div class="reel-controls">
+                    <button class="control-btn like-btn" onclick="toggleLike(this)">
+                        <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button class="control-btn comment-btn" onclick="toggleComments(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="heart-icon" width="24" height="24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M21 12c0-4.97-4.03-9-9-9S3 7.03 3 12c0 1.64.44 3.17 1.21 4.5L3 21l4.5-1.21A8.96 8.96 0 0012 21c4.97 0 9-4.03 9-9z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn share-btn" onclick="shareReel(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2" class="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 12v1a7 7 0 007 7h1M16 8l4-4m0 0L16 0m4 4H8a4 4 0 00-4 4v4" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="reel-info">
+                <div class="artist-info">
+                    <img src="ShClouds.png" alt="The 1975" class="artist-avatar">
+                    <span class="artist-name"><b>John Lennon</b></span>
+                </div>
+                <p class="reel-caption">Imagine</p>
+            </div>
+            <div class="comments-section">
+                <div class="comment-input">
+                    <input type="text" placeholder="Add a comment...">
+                    <button onclick="postComment(this)">Post</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Reel 9 -->
+        <div class="reel" data-reel-id="1">
+            <div class="video-container">
+                <video loop controls playsinline poster="reel-thumbs/concert.webp">
+                    <source src="reels video/Those Eyes.mp4" type="video/mp4">
+                </video>
+                <div class="reel-controls">
+                    <button class="control-btn like-btn" onclick="toggleLike(this)">
+                        <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button class="control-btn comment-btn" onclick="toggleComments(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="heart-icon" width="24" height="24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M21 12c0-4.97-4.03-9-9-9S3 7.03 3 12c0 1.64.44 3.17 1.21 4.5L3 21l4.5-1.21A8.96 8.96 0 0012 21c4.97 0 9-4.03 9-9z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn share-btn" onclick="shareReel(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2" class="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 12v1a7 7 0 007 7h1M16 8l4-4m0 0L16 0m4 4H8a4 4 0 00-4 4v4" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="reel-info">
+                <div class="artist-info">
+                    <img src="ShClouds.png" alt="The 1975" class="artist-avatar">
+                    <span class="artist-name"><b>New West</b></span>
+                </div>
+                <p class="reel-caption">Those Eyes</p>
+            </div>
+            <div class="comments-section">
+                <div class="comment-input">
+                    <input type="text" placeholder="Add a comment...">
+                    <button onclick="postComment(this)">Post</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Reel 10 -->
+        <div class="reel" data-reel-id="1">
+            <div class="video-container">
+                <video loop controls playsinline poster="reel-thumbs/concert.webp">
+                    <source src="reels video/Why not me.mp4" type="video/mp4">
+                </video>
+                <div class="reel-controls">
+                    <button class="control-btn like-btn" onclick="toggleLike(this)">
+                        <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z">
+                            </path>
+                        </svg>
+                    </button>
+                    <button class="control-btn comment-btn" onclick="toggleComments(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="heart-icon" width="24" height="24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 10h.01M12 10h.01M16 10h.01M21 12c0-4.97-4.03-9-9-9S3 7.03 3 12c0 1.64.44 3.17 1.21 4.5L3 21l4.5-1.21A8.96 8.96 0 0012 21c4.97 0 9-4.03 9-9z" />
+                        </svg>
+                    </button>
+                    <button class="control-btn share-btn" onclick="shareReel(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            stroke-width="2" class="icon">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 12v1a7 7 0 007 7h1M16 8l4-4m0 0L16 0m4 4H8a4 4 0 00-4 4v4" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="reel-info">
+                <div class="artist-info">
+                    <img src="ShClouds.png" alt="The 1975" class="artist-avatar">
+                    <span class="artist-name"><b>Enrique Iglesias</b></span>
+                </div>
+                <p class="reel-caption">Why not me</p>
+            </div>
+            <div class="comments-section">
+                <div class="comment-input">
+                    <input type="text" placeholder="Add a comment...">
+                    <button onclick="postComment(this)">Post</button>
+                </div>
+            </div>
+        </div>
+        
+
+
+        <!-- <footer>
+            
+        </footer> -->
+
+        <script>
+            // Scroll autoplay logic using Intersection Observer
+            const videoObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const video = entry.target;
+                    if (entry.isIntersecting) {
+                        video.play().catch(e => { }); // prevent autoplay errors
+                    } else {
+                        video.pause();
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            document.querySelectorAll('.video-container video').forEach(video => {
+                videoObserver.observe(video);
+            });
+
+
+
+
+            document.querySelectorAll('.video-container').forEach(container => {
+                let lastTap = 0;
+
+                container.addEventListener('touchend', function (e) {
+                    const currentTime = new Date().getTime();
+                    const tapLength = currentTime - lastTap;
+
+                    if (tapLength < 300 && tapLength > 0) {
+                        const likeBtn = container.querySelector('.like-btn');
+                        toggleLike(likeBtn);
+
+                        // Optional: Show a floating heart animation
+                        showHeart(container);
+                    }
+
+                    lastTap = currentTime;
+                });
+            });
+
+            function toggleLike(button) {
+                const icon = button.querySelector('svg');
+                const isLiked = icon.classList.toggle('liked');
+                icon.style.fill = isLiked ? 'red' : 'none';
+                icon.style.stroke = isLiked ? 'red' : 'white';
+            }
+
+            function showHeart(container) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-popup');
+                heart.innerHTML = '❤️';
+                container.appendChild(heart);
+
+                setTimeout(() => {
+                    container.removeChild(heart);
+                }, 600);
+            }
+
+
+
+
+
+
+
+
+
+
+
+            // Like functionality
+            function toggleLike(button) {
+                button.classList.toggle('liked');
+                const reelId = button.closest('.reel').dataset.reelId;
+                console.log(`Toggled like for reel ${reelId}`);
+            }
+
+
+            // Comment section toggle
+            function toggleComments(button) {
+                const commentsSection = button.closest('.reel').querySelector('.comments-section');
+                commentsSection.classList.toggle('active');
+
+                // Scroll to comments if opening
+                if (commentsSection.classList.contains('active')) {
+                    setTimeout(() => {
+                        commentsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }, 300);
+                }
+            }
+
+            // Post comment
+            function postComment(button) {
+                const input = button.previousElementSibling;
+                const commentText = input.value.trim();
+
+                if (commentText) {
+                    const commentsSection = button.closest('.comments-section');
+                    const newComment = document.createElement('div');
+                    newComment.className = 'comment';
+                    newComment.innerHTML = `
+                    <img src="users/default.webp" alt="User" class="comment-avatar">
+                    <div class="comment-content">
+                        <div class="comment-author">You</div>
+                        <div class="comment-text">${commentText}</div>
+                    </div>
+                `;
+
+                    // Add before the input section
+                    commentsSection.insertBefore(newComment, button.closest('.comment-input'));
+                    input.value = '';
+
+                    // In a real app, you would send this to your backend
+                    const reelId = button.closest('.reel').dataset.reelId;
+                    console.log(`Posted comment to reel ${reelId}: ${commentText}`);
+                }
+            }
+
+            // Video aspect ratio handling
+            function handleVideoAspectRatios() {
+                document.querySelectorAll('.video-container video').forEach(video => {
+                    if (video.videoWidth > 0 && video.videoHeight > 0) {
+                        const aspectRatio = video.videoWidth / video.videoHeight;
+                        video.style.objectFit = aspectRatio >= 1 ? 'contain' : 'cover';
+                    }
+                });
+            }
+
+            // Initialize when videos load
+            document.querySelectorAll('video').forEach(video => {
+                video.addEventListener('loadedmetadata', handleVideoAspectRatios);
+            });
+
+            // Original menu toggle function
+            function toggleMenu() {
+                const navMenu = document.querySelector('nav ul');
+                navMenu.classList.toggle('active');
+                document.body.classList.toggle('blur');
+                document.querySelector('.menu-toggle').classList.toggle('cross');
+            }
+
+            // Play/pause on click
+            document.querySelectorAll('.video-container').forEach(container => {
+                container.addEventListener('click', function (e) {
+                    // Don't trigger if clicking on controls
+                    if (!e.target.classList.contains('control-btn')) {
+                        const video = this.querySelector('video');
+                        if (video.paused) {
+                            video.play();
+                        } else {
+                            video.pause();
+                        }
+                    }
+                });
+            });
+
+            function shareReel(button) {
+                const reel = button.closest('.reel');
+                const caption = reel.querySelector('.reel-caption').innerText;
+                const videoSrc = reel.querySelector('video source').src;
+                const shareData = {
+                    title: 'Sh Music Reel',
+                    text: caption,
+                    url: videoSrc
+                };
+
+                if (navigator.share) {
+                    navigator.share(shareData)
+                        .then(() => console.log('Shared successfully'))
+                        .catch(err => console.error('Error sharing:', err));
+                } else {
+                    alert("Sharing not supported on this browser.");
+                }
+            }
+
+        </script>
+</body>
+
+</html>
